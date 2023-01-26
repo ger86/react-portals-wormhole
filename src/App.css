@@ -1,4 +1,5 @@
-.App, .wormhole-b-container {
+.App,
+#spaceB {
   background-color: white;
   position: relative;
   width: 100vw;

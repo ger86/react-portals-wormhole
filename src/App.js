@@ -1,24 +1,18 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import Draggable from "react-draggable";
+import overlaps from "utils/overlaps";
+import Starship from "./components/Starship";
 import "./App.css";
-import Starship from "./Starship";
 
-const wormholeB = document.querySelector(".wormhole-b-container");
-
-const overlaps = (rect1, rect2) =>
-  !(
-    rect1.right < rect2.left ||
-    rect1.left > rect2.right ||
-    rect1.bottom < rect2.top ||
-    rect1.top > rect2.bottom
-  );
+const spaceB = document.querySelector("#spaceB");
 
 function App() {
   const [isInSpaceA, setIsInSpaceA] = useState(true);
   const wormholeARef = useRef();
   const wormholeBRef = useRef();
-  const checkInsideWorkmholeA = (event) => {
+
+  function checkInsideWorkmholeA(event) {
     if (
       overlaps(
         event.target.getBoundingClientRect(),
@@ -27,8 +21,9 @@ function App() {
     ) {
       setIsInSpaceA(false);
     }
-  };
-  const checkInsideWorkmholeB = (event) => {
+  }
+
+  function checkInsideWorkmholeB(event) {
     if (
       overlaps(
         event.target.getBoundingClientRect(),
@@ -37,7 +32,8 @@ function App() {
     ) {
       setIsInSpaceA(true);
     }
-  };
+  }
+
   return (
     <div className="App">
       {isInSpaceA && (
@@ -51,11 +47,11 @@ function App() {
           <Draggable axis="both" bounds="parent" onStop={checkInsideWorkmholeB}>
             <Starship />
           </Draggable>,
-          wormholeB
+          spaceB
         )}
       {ReactDOM.createPortal(
         <div className="wormhole-b" ref={wormholeBRef}></div>,
-        wormholeB
+        spaceB
       )}
     </div>
   );
